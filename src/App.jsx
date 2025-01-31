@@ -4,7 +4,6 @@ import './App.css';
 
 const Api_url = 'https://www.omdbapi.com/?apikey=929189c0&s=car'; 
 
-
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [movies, setMovies] = useState([]);
@@ -18,9 +17,19 @@ function App() {
   }, [searchTerm]);
 
   const searchMovie = async (title) => {
+    console.log(`Searching for movies with title: ${title}`);
+    
     try {
       const response = await fetch(`${Api_url}&s=${title}`);
+      console.log('API Response:', response);
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch data');
+      }
+
       const data = await response.json();
+      console.log('API Data:', data);
+
       if (data.Search) {
         setMovies(data.Search);
       } else {
